@@ -345,13 +345,34 @@
                 </main>
             </div>
             <!-- Modal for Request Details -->
-            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" x-cloak>
-                <div @click.away="closeModal()" class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
-                    <div class="flex justify-between items-center p-5 border-b">
+            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4" x-cloak>
+                <div @click.away="closeModal()" class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+                    <div class="flex justify-between items-center p-5 border-b sticky top-0 bg-white">
                         <h3 class="text-xl font-semibold text-gray-900">Detail Permintaan: <span x-text="selectedRequest.id"></span></h3>
                         <button @click="closeModal()" class="text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                     </div>
                     <div class="p-6 space-y-6 overflow-y-auto" x-if="selectedRequest.id">
+                        <!-- SSO Data Section -->
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="text-base font-semibold text-gray-800 mb-3">Data Pemohon (SSO)</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <p class="font-semibold text-gray-700">Nama Lengkap:</p>
+                                    <p x-text="selectedRequest.name"></p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-700">Alamat Email:</p>
+                                    <p x-text="selectedRequest.email"></p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-700">Nomor Whatsapp:</p>
+                                    <p x-text="selectedRequest.phone"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detail Permohonan Section -->
+                        <h4 class="text-base font-semibold text-gray-800 pt-2">Detail Isian Formulir</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                             <div class="space-y-4">
                                 <div><p class="font-semibold text-gray-700">Tanggal:</p><p x-text="selectedRequest.date"></p></div>
@@ -378,7 +399,7 @@
                         <div><p class="font-semibold text-gray-700">Informasi Diminta:</p><p class="mt-1 bg-gray-50 p-3 rounded-lg" x-text="selectedRequest.requestText"></p></div>
                         <div><p class="font-semibold text-gray-700">Alasan Permintaan:</p><p class="mt-1 bg-gray-50 p-3 rounded-lg" x-text="selectedRequest.reasonText"></p></div>
                     </div>
-                    <div class="flex items-center justify-end p-5 border-t space-x-4 bg-gray-50 rounded-b-lg">
+                    <div class="flex items-center justify-end p-5 border-t space-x-4 bg-gray-50 rounded-b-lg sticky bottom-0">
                         <select x-model="selectedRequest.status" class="w-full md:w-auto p-2 border border-gray-300 rounded-md text-sm">
                             <option value="Baru">Baru</option>
                             <option value="Diproses">Diproses</option>
@@ -394,7 +415,7 @@
 
     <script>
         function appData() {
-            const blankRequest = { id: '', date: '', opd: '', type: '', status: '', nik: '', address: '', supportingDoc: null, requestText: '', reasonText: '' };
+            const blankRequest = { id: '', date: '', opd: '', type: '', status: '', name: '', email: '', phone: '', nik: '', address: '', supportingDoc: null, requestText: '', reasonText: '' };
             return {
                 // APP STATE
                 currentPage: 'login', userType: null,
@@ -405,12 +426,12 @@
                 // DASHBOARD STATE
                 isModalOpen: false, searchTerm: '', selectedRequest: { ...blankRequest },
                 requests: [
-                    { id: 'PPID-2025-001', date: '27/07/2025', opd: 'Dinas Komunikasi Dan Informatika', type: 'perorangan', status: 'Baru', nik: '617101******0001', address: 'Jl. Ahmad Yani No.1, Pontianak', supportingDoc: null, requestText: 'Data statistik pengguna internet di Kalimantan Barat per triwulan selama tahun 2024.', reasonText: 'Untuk keperluan penelitian akademis.' },
-                    { id: 'PPID-2025-002', date: '26/07/2025', opd: 'Badan Perencanaan Pembangunan Daerah', type: 'badan-hukum', status: 'Diproses', nik: '617102******0002', address: 'Jl. Gajah Mada No. 20', supportingDoc: 'Akta Pendirian PT.pdf', requestText: 'Salinan dokumen RPJMD Provinsi Kalbar terbaru.', reasonText: 'Sebagai bahan acuan penyusunan rencana strategis.' },
-                    { id: 'PPID-2025-003', date: '25/07/2025', opd: 'Dinas Pendidikan Dan Kebudayaan', type: 'kelompok', status: 'Selesai', nik: '617103******0003', address: 'Jl. Imam Bonjol No. 15', supportingDoc: 'Surat Kuasa Kelompok.pdf', requestText: 'Data jumlah sekolah dan siswa jenjang SMA/SMK.', reasonText: 'Untuk kegiatan advokasi pendidikan.' },
-                    { id: 'PPID-2025-004', date: '24/07/2025', opd: 'Dinas Kesehatan', type: 'perorangan', status: 'Ditolak', nik: '617104******0004', address: 'Jl. Dr. Sutomo No. 5', supportingDoc: null, requestText: 'Data rekam medis pasien COVID-19.', reasonText: 'Penelitian pribadi (Informasi dikecualikan).' },
-                    { id: 'PPID-2025-005', date: '23/07/2025', opd: 'Badan Kepegawaian Daerah', type: 'instansi', status: 'Baru', nik: '617105******0005', address: 'Jl. Urai Bawadi No. 9', supportingDoc: 'Surat Tugas BKD.pdf', requestText: 'Informasi mengenai jumlah formasi CPNS dan P3K 2024.', reasonText: 'Persiapan untuk mengikuti seleksi CASN.' },
-                    { id: 'PPID-2025-006', date: '22/07/2025', opd: 'Dinas Sosial', type: 'kelompok', status: 'Selesai', nik: '617106******0006', address: 'Jl. Sutan Syahrir No. 3', supportingDoc: 'Surat Tugas LSM ABC.pdf', requestText: 'Data jumlah penyandang disabilitas di Kubu Raya.', reasonText: 'Untuk evaluasi program kerja LSM.' }
+                    { id: 'PPID-2025-001', date: '27/07/2025', opd: 'Dinas Komunikasi Dan Informatika', type: 'perorangan', status: 'Baru', name: 'Budi Santoso', email: 'budi.s@email.com', phone: '081234567890', nik: '617101******0001', address: 'Jl. Ahmad Yani No.1, Pontianak', supportingDoc: null, requestText: 'Data statistik pengguna internet di Kalimantan Barat per triwulan selama tahun 2024.', reasonText: 'Untuk keperluan penelitian akademis.' },
+                    { id: 'PPID-2025-002', date: '26/07/2025', opd: 'Badan Perencanaan Pembangunan Daerah', type: 'badan-hukum', status: 'Diproses', name: 'Citra Wulandari', email: 'citra.w@email.com', phone: '081234567891', nik: '617102******0002', address: 'Jl. Gajah Mada No. 20', supportingDoc: 'Akta Pendirian PT.pdf', requestText: 'Salinan dokumen RPJMD Provinsi Kalbar terbaru.', reasonText: 'Sebagai bahan acuan penyusunan rencana strategis.' },
+                    { id: 'PPID-2025-003', date: '25/07/2025', opd: 'Dinas Pendidikan Dan Kebudayaan', type: 'kelompok', status: 'Selesai', name: 'Ahmad Subarjo', email: 'ahmad.s@email.com', phone: '081234567892', nik: '617103******0003', address: 'Jl. Imam Bonjol No. 15', supportingDoc: 'Surat Kuasa Kelompok.pdf', requestText: 'Data jumlah sekolah dan siswa jenjang SMA/SMK.', reasonText: 'Untuk kegiatan advokasi pendidikan.' },
+                    { id: 'PPID-2025-004', date: '24/07/2025', opd: 'Dinas Kesehatan', type: 'perorangan', status: 'Ditolak', name: 'Dewi Lestari', email: 'dewi.l@email.com', phone: '081234567893', nik: '617104******0004', address: 'Jl. Dr. Sutomo No. 5', supportingDoc: null, requestText: 'Data rekam medis pasien COVID-19.', reasonText: 'Penelitian pribadi (Informasi dikecualikan).' },
+                    { id: 'PPID-2025-005', date: '23/07/2025', opd: 'Badan Kepegawaian Daerah', type: 'instansi', status: 'Baru', name: 'Eko Prasetyo', email: 'eko.p@email.com', phone: '081234567894', nik: '617105******0005', address: 'Jl. Urai Bawadi No. 9', supportingDoc: 'Surat Tugas BKD.pdf', requestText: 'Informasi mengenai jumlah formasi CPNS dan P3K 2024.', reasonText: 'Persiapan untuk mengikuti seleksi CASN.' },
+                    { id: 'PPID-2025-006', date: '22/07/2025', opd: 'Dinas Sosial', type: 'kelompok', status: 'Selesai', name: 'Fitriani', email: 'fitriani@email.com', phone: '081234567895', nik: '617106******0006', address: 'Jl. Sutan Syahrir No. 3', supportingDoc: 'Surat Tugas LSM ABC.pdf', requestText: 'Data jumlah penyandang disabilitas di Kubu Raya.', reasonText: 'Untuk evaluasi program kerja LSM.' }
                 ],
                 // LOGIN & NAVIGATION
                 login(type) { this.userType = type; this.currentPage = type === 'admin' ? 'dashboard' : 'form'; },
@@ -420,7 +441,7 @@
                     this.isSubmitting = true;
                     setTimeout(() => { // Simulate API call
                         const newId = `PPID-2025-${(this.requests.length + 1).toString().padStart(3, '0')}`;
-                        const newEntry = { id: newId, date: new Date().toLocaleDateString('id-ID'), status: 'Baru', ...this.newRequest };
+                        const newEntry = { id: newId, date: new Date().toLocaleDateString('id-ID'), status: 'Baru', ...this.newRequest, name: 'Pengguna Baru', email: 'pengguna@sso.com', phone: '081200000000' };
                         this.requests.unshift(newEntry);
                         this.formSuccess = true;
                         this.lastRequestId = newId;

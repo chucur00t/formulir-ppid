@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Formulir Permintaan Informasi PPID Kalbar</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon (using original for consistency) -->
+    <link rel="shortcut icon" type="image/x-icon" href="https://layanan-diskominfo.kalbarprov.go.id/PPIDKALBAR-PERMOHONAN/public/assets/images/cropped-kalbar-200x200.png">
+
+    <style>
+        /* Custom styles to complement Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* gray-50 */
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 2px #bfdbfe; /* blue-200 */
+        }
+        
+        .file-input-label {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .file-input-label:hover {
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #1f2937; /* gray-800 */
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1f2937 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Styling for login buttons */
+        .sso-button {
+            transition: all 0.3s ease;
+        }
+        .sso-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.4);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- Header Section -->
+    <header class="w-full max-w-4xl mx-auto p-4 pt-8">
+        <div class="flex items-center justify-center sm:justify-start space-x-4">
+            <img src="https://layanan-diskominfo.kalbarprov.go.id/PPIDKALBAR-PERMOHONAN/public/assets/images/cropped-kalbar-200x200.png" alt="Logo Kalbar" class="h-16 w-16 sm:h-20 sm:w-20">
+            <div class="text-center sm:text-left">
+                <h5 class="text-sm sm:text-base font-semibold text-gray-600 tracking-widest">PEMERINTAH PROVINSI KALIMANTAN BARAT</h5>
+                <h1 class="text-xl sm:text-3xl font-extrabold text-gray-800">PEJABAT PENGELOLA INFORMASI & DOKUMENTASI (PPID)</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- SSO Login Page -->
+    <div id="login-page" class="flex flex-col items-center justify-center p-4">
+        <main class="w-full max-w-lg mx-auto bg-white rounded-2xl shadow-lg overflow-hidden mt-8">
+            <div class="p-8 sm:p-10 text-center">
+                 <h2 class="text-2xl font-bold text-gray-900">Akses Formulir Permintaan Informasi</h2>
+                 <p class="mt-2 text-gray-500">Untuk melanjutkan, silakan masuk menggunakan akun Anda.</p>
+
+                 <div class="mt-8 space-y-5">
+                    <!-- SSO ASN Button -->
+                    <button id="btn-asn-login" class="sso-button w-full flex items-center justify-center gap-3 p-4 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span>Masuk sebagai ASN</span>
+                    </button>
+
+                    <!-- SSO Non-ASN Button -->
+                     <button id="btn-non-asn-login" class="sso-button w-full flex items-center justify-center gap-3 p-4 bg-gray-700 text-white font-bold rounded-lg shadow-md hover:bg-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Masuk sebagai Non-ASN</span>
+                    </button>
+                 </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Form Page (Initially Hidden) -->
+    <div id="form-page" class="hidden p-4">
+        <!-- Form Card -->
+        <main class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="p-6 sm:p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Formulir Permintaan Informasi Online</h2>
+                    <p class="mt-2 text-gray-500">Anda telah masuk. Silakan isi formulir di bawah ini dengan data yang benar.</p>
+                </div>
+                
+                <form id="register-form" name="register-form" method="POST" enctype="multipart/form-data" novalidate>
+                    <!-- Grid for form fields -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+
+                        <!-- OPD Tujuan -->
+                        <div class="md:col-span-2">
+                            <label for="id_skpd" class="block text-sm font-medium text-gray-700 mb-1">OPD Tujuan <span class="text-red-500">*</span></label>
+                            <select id="id_skpd" name="id_skpd" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-select">
+                                <option value="">:: Pilih OPD Tujuan ::</option>
+                                <optgroup label="Pemerintah Prov. Kalbar">
+                                    <option value="107">Badan Kepegawaian Daerah Prov. Kalbar</option>
+                                    <option value="104">Badan Kesatuan Bangsa Dan Politik Prov. Kalbar</option>
+                                    <option value="83">Dinas Komunikasi Dan Informatika Prov. Kalbar</option>
+                                    <!-- Add all other options here from the original form -->
+                                </optgroup>
+                                <optgroup label="Pemerintah Kab/Kota">
+                                    <option value="123">Pemerintah Kabupaten Sambas</option>
+                                    <option value="135">Pemerintah Kota Pontianak</option>
+                                    <!-- Add all other options here -->
+                                </optgroup>
+                            </select>
+                        </div>
+                        
+                        <!-- Jenis Pemohon -->
+                        <div>
+                            <label for="jenis_pemohon" class="block text-sm font-medium text-gray-700 mb-1">Jenis Pemohon <span class="text-red-500">*</span></label>
+                            <select id="jenis_pemohon" name="jenis_pemohon" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-select">
+                                <option value="">:: Pilih Jenis Pemohon ::</option>
+                                <option value="perorangan">Perorangan</option>
+                                <option value="badan-hukum">Badan Hukum</option>
+                                <option value="kelompok">Kelompok</option>
+                            </select>
+                        </div>
+                        
+                        <!-- No Identitas (KTP) -->
+                        <div>
+                            <label for="noktp" class="block text-sm font-medium text-gray-700 mb-1">No. Identitas (KTP) <span class="text-red-500">*</span></label>
+                            <input type="number" name="noktp" id="noktp" placeholder="16 digit NIK" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-input">
+                        </div>
+                        
+                        <!-- Jenis Kelamin -->
+                        <div class="md:col-span-2">
+                            <label for="kelamin" class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin <span class="text-red-500">*</span></label>
+                            <select id="kelamin" name="kelamin" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-select">
+                                <option value="">:: Pilih Jenis Kelamin ::</option>
+                                <option value="l">Laki-laki</option>
+                                <option value="p">Perempuan</option>
+                            </select>
+                        </div>
+
+                        <!-- Alamat Lengkap -->
+                        <div class="md:col-span-2">
+                            <label for="alamat" class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap <span class="text-red-500">*</span></label>
+                            <textarea name="alamat" id="alamat" rows="3" placeholder="Sesuai KTP" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-textarea"></textarea>
+                        </div>
+
+                        <!-- Separator -->
+                        <hr class="md:col-span-2 my-4">
+
+                        <!-- Unggah Dokumen Section -->
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <!-- Scan KTP -->
+                             <div>
+                                <label for="scan_ktp" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Scan Identitas (KTP) <span class="text-red-500">*</span>
+                                </label>
+                                <label for="scan_ktp" class="file-input-label mt-1 flex justify-center w-full px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer">
+                                    <div class="space-y-1 text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                        <div class="flex text-sm text-gray-600">
+                                            <p class="pl-1">Klik untuk unggah atau seret file</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">JPG, PNG (Maks 2MB)</p>
+                                    </div>
+                                </label>
+                                <input id="scan_ktp" name="scan_ktp" type="file" class="sr-only" accept="image/jpeg,image/png">
+                                <div id="scan_ktp_preview" class="mt-2 text-sm text-gray-600"></div>
+                            </div>
+                            
+                            <!-- Dokumen Tambahan (Conditional) -->
+                            <div id="dokumen_attach_container" class="hidden">
+                                <label for="dokumen_attach" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Dokumen Pendukung <span class="text-red-500">*</span>
+                                    <span class="tooltip">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span id="tooltip_text" class="tooltiptext"></span>
+                                    </span>
+                                </label>
+                                <label for="dokumen_attach" class="file-input-label mt-1 flex justify-center w-full px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer">
+                                     <div class="space-y-1 text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 17v-2.172a4 4 0 011.172-2.828L12 10.828M15 17v-2.172a4 4 0 00-1.172-2.828L12 10.828m-6 8.172v-2.172a4 4 0 011.172-2.828L12 10.828M15 17v-2.172a4 4 0 00-1.172-2.828L12 10.828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 12h6M4 6h16M4 10h16M4 14h16M4 18h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                        <div class="flex text-sm text-gray-600">
+                                            <p class="pl-1">Klik untuk unggah atau seret file</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PDF (Maks 2MB)</p>
+                                    </div>
+                                </label>
+                                <input id="dokumen_attach" name="dokumen_attach" type="file" class="sr-only" accept=".pdf">
+                                 <div id="dokumen_attach_preview" class="mt-2 text-sm text-gray-600"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Separator -->
+                        <hr class="md:col-span-2 my-4">
+
+                        <!-- Informasi yang diminta -->
+                        <div class="md:col-span-2">
+                            <label for="informasi_diminta" class="block text-sm font-medium text-gray-700 mb-1">Informasi yang Diminta <span class="text-red-500">*</span></label>
+                            <textarea name="informasi_diminta" id="informasi_diminta" rows="4" placeholder="Jelaskan secara rinci informasi publik yang Anda butuhkan" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-textarea"></textarea>
+                        </div>
+                        
+                        <!-- Alasan Permintaan -->
+                        <div class="md:col-span-2">
+                            <label for="alasan" class="block text-sm font-medium text-gray-700 mb-1">Alasan Permintaan Informasi <span class="text-red-500">*</span></label>
+                            <textarea name="alasan" id="alasan" rows="4" placeholder="Jelaskan tujuan Anda menggunakan informasi ini" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm form-textarea"></textarea>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="mt-10 pt-6 border-t border-gray-200 text-center">
+                        <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-12 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
+                            Kirim Permintaan
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </main>
+        
+        <footer class="w-full max-w-4xl mx-auto mt-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2024 Pejabat Pengelola Informasi dan Dokumentasi (PPID) Utama Provinsi Kalimantan Barat.</p>
+            <p class="mt-1">Hak Cipta Terpelihara.</p>
+        </footer>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Page elements
+            const loginPage = document.getElementById('login-page');
+            const formPage = document.getElementById('form-page');
+
+            // Login buttons
+            const btnAsnLogin = document.getElementById('btn-asn-login');
+            const btnNonAsnLogin = document.getElementById('btn-non-asn-login');
+
+            // Form elements
+            const jenisPemohonSelect = document.getElementById('jenis_pemohon');
+            const dokumenAttachContainer = document.getElementById('dokumen_attach_container');
+            const tooltipText = document.getElementById('tooltip_text');
+            const dokumenAttachInput = document.getElementById('dokumen_attach');
+            const form = document.getElementById('register-form');
+
+            // --- Login Logic ---
+            function showForm() {
+                loginPage.classList.add('hidden');
+                formPage.classList.remove('hidden');
+                window.scrollTo(0, 0); // Scroll to top
+            }
+
+            btnAsnLogin.addEventListener('click', showForm);
+            btnNonAsnLogin.addEventListener('click', showForm);
+
+            // --- Form Logic ---
+            // Tooltip messages
+            const tooltips = {
+                'badan-hukum': 'Unggah fotokopi akta pendirian badan hukum yang telah disahkan Kemenkumham (format PDF).',
+                'kelompok': 'Unggah surat kuasa dan KTP pemberi kuasa (format PDF).'
+            };
+
+            // Event listener for jenis_pemohon select
+            jenisPemohonSelect.addEventListener('change', function() {
+                const selectedValue = this.value;
+
+                if (selectedValue === 'badan-hukum' || selectedValue === 'kelompok') {
+                    dokumenAttachContainer.classList.remove('hidden');
+                    tooltipText.textContent = tooltips[selectedValue];
+                    dokumenAttachInput.setAttribute('required', 'required');
+                } else {
+                    dokumenAttachContainer.classList.add('hidden');
+                    dokumenAttachInput.removeAttribute('required');
+                }
+            });
+
+            // Function to handle file input preview
+            function setupFileInputPreview(inputId, previewId) {
+                const fileInput = document.getElementById(inputId);
+                const previewElement = document.getElementById(previewId);
+                
+                if (fileInput) {
+                    fileInput.addEventListener('change', function() {
+                        if (this.files && this.files.length > 0) {
+                            previewElement.textContent = `File dipilih: ${this.files[0].name}`;
+                        } else {
+                            previewElement.textContent = '';
+                        }
+                    });
+                }
+            }
+
+            // Setup previews for both file inputs
+            setupFileInputPreview('scan_ktp', 'scan_ktp_preview');
+            setupFileInputPreview('dokumen_attach', 'dokumen_attach_preview');
+            
+            // Handle form submission (example)
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent actual submission for this demo
+                
+                alert('Permintaan Anda akan diproses! (Ini hanya simulasi front-end)');
+                
+                console.log('Form submitted (simulated).');
+            });
+        });
+    </script>
+</body>
+</html>

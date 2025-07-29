@@ -58,10 +58,6 @@
         .star-rating svg {
             cursor: pointer;
         }
-        /* Diagram styles */
-        .flow-arrow {
-            color: #9ca3af; /* gray-400 */
-        }
     </style>
 </head>
 
@@ -78,25 +74,35 @@
             >
                 <div class="text-center">
                     <img src="https://layanan-diskominfo.kalbarprov.go.id/PPIDKALBAR-PERMOHONAN/public/assets/images/cropped-kalbar-200x200.png" alt="Logo Kalbar" class="w-24 h-24 mx-auto mb-4">
-                    <h1 class="text-3xl font-bold text-gray-800">Akses Formulir PPID</h1>
+                    <h1 class="text-3xl font-bold text-gray-800">Layanan Permohonan Informasi</h1>
                     <p class="mt-2 text-gray-500">Silakan masuk untuk melanjutkan</p>
                 </div>
                 <div class="space-y-4">
                     <button @click="login('admin')" class="w-full flex items-center justify-center px-4 py-3 font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-300 transform hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM7 8a4 4 0 118 0 4 4 0 01-8 0zM4.93 14.07a8.001 8.001 0 0010.14 0A8.001 8.001 0 004.93 14.07z" clip-rule="evenodd" /></svg>
-                        Masuk sebagai Admin
+                        Masuk sebagai Admin (SSO ASN)
                     </button>
                     <button @click="login('asn')" class="w-full flex items-center justify-center px-4 py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0115 11a5 5 0 011 9.9M9 11a5 5 0 00-4.93 4.4A5.002 5.002 0 009 20a5.002 5.002 0 004.93-4.4A5 5 0 009 11z" /></svg>
-                        SSO ASN
+                        Masuk sebagai User (SSO ASN)
                     </button>
                     <button @click="login('non-asn')" class="w-full flex items-center justify-center px-4 py-3 font-semibold text-white bg-gray-600 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-300 transform hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                        SSO Non-ASN
+                        Masuk sebagai User (SSO Masyarakat)
                     </button>
                 </div>
-                <div class="text-center pt-4">
-                    <button @click="currentPage = 'process'" class="text-sm font-medium text-blue-600 hover:underline">Lihat Alur Proses Aplikasi</button>
+                <div class="mt-8 pt-4 border-t border-gray-200 text-center space-y-3">
+                    <p class="text-sm text-gray-500">Atau, lakukan aksi cepat:</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button @click="currentPage = 'tracking'" class="w-full flex items-center justify-center px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                            Lacak Permintaan
+                        </button>
+                        <button @click="currentPage = 'process'" class="w-full flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" /></svg>
+                            Lihat Alur Proses
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -555,7 +561,66 @@
             </div>
         </div>
     </main>
-    
+
+    <!-- ===== TRACKING VIEW ===== -->
+    <main x-show="currentPage === 'tracking'" x-transition.opacity>
+        <div class="min-h-screen bg-slate-50">
+            <header class="bg-white shadow-md">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-20">
+                         <div class="flex items-center">
+                            <img class="h-12 w-auto" src="https://layanan-diskominfo.kalbarprov.go.id/PPIDKALBAR-PERMOHONAN/public/assets/images/cropped-kalbar-200x200.png" alt="Logo Kalbar">
+                            <div class="ml-4">
+                                <h1 class="text-xl font-extrabold text-gray-800">Lacak Status Permintaan</h1>
+                            </div>
+                        </div>
+                        <button @click="currentPage = 'login'; trackingResult = null; trackingId = ''" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            Kembali ke Login
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+                <div class="max-w-xl mx-auto">
+                    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
+                        <form @submit.prevent="trackRequest()">
+                            <label for="trackingId" class="block text-sm font-medium text-gray-700">Masukkan ID Permintaan Anda</label>
+                            <div class="mt-2 flex gap-2">
+                                <input type="text" x-model="trackingId" id="trackingId" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="Contoh: PPID-2025-001">
+                                <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">Lacak</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div x-show="trackingResult" x-transition class="mt-6">
+                        <template x-if="trackingResult && trackingResult.error">
+                            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md">
+                                <p x-text="trackingResult.error"></p>
+                            </div>
+                        </template>
+
+                        <template x-if="trackingResult && !trackingResult.error">
+                            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
+                                <h3 class="text-lg font-semibold text-gray-900">Riwayat Status untuk <span x-text="trackingResult.id" class="text-blue-600"></span></h3>
+                                <p class="text-sm text-gray-500 mt-1">OPD Tujuan: <span x-text="trackingResult.opd" class="font-medium"></span></p>
+                                <div class="mt-6 border-l-2 border-blue-200">
+                                    <template x-for="(history, index) in trackingResult.statusHistory" :key="index">
+                                        <div class="relative pl-8 pb-8">
+                                            <div class="absolute -left-2.5 top-1 h-5 w-5 rounded-full" :class="index === 0 ? 'bg-blue-500 ring-4 ring-white' : 'bg-gray-300'"></div>
+                                            <p class="font-semibold" :class="index === 0 ? 'text-blue-600' : 'text-gray-700'" x-text="history.status"></p>
+                                            <p class="text-sm text-gray-500" x-text="history.date"></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <!-- ===== PROCESS VIEW ===== -->
     <main x-show="currentPage === 'process'" x-transition.opacity>
          <div class="bg-slate-50 min-h-screen">
@@ -584,7 +649,7 @@
                             <!-- Step 1 -->
                             <div class="bg-white p-4 rounded-lg shadow-md w-full max-w-sm flex items-start space-x-4">
                                 <div class="bg-blue-100 text-blue-600 p-2 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg></div>
-                                <div><h4 class="font-semibold">Login</h4><p class="text-sm text-gray-600">Pilih metode login (ASN/Non-ASN).</p></div>
+                                <div><h4 class="font-semibold">Login</h4><p class="text-sm text-gray-600">Pilih metode login (SSO ASN/SSO Masyarakat).</p></div>
                             </div>
                             <div class="h-8 w-px bg-gray-300"></div>
                             <!-- Step 2 -->
@@ -640,14 +705,9 @@
          </div>
     </main>
     
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/6281510599991" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 4.315 1.731 6.086l.001.004 4.971-1.648zm-2.953-7.194c-.14-.248-.279-.248-.411-.252-.12-.002-.28-.002-.432-.002s-.393.064-.593.308c-.202.245-.76 1.132-.76 2.763s.76 3.205.865 3.447c.102.245 1.522 2.563 3.756 3.53.512.232.955.368 1.282.473.546.173 1.054.147 1.413.089.413-.064 1.282-.524 1.464-.986.182-.463.182-.861.127-1.002s-.082-.248-.163-.33c-.082-.082-.182-.102-.344-.163s-1.054-.524-1.217-.584c-.163-.06-.28-.082-.393.082-.113.164-.46.584-.564.704-.102.12-.203.142-.344.082-.14-.06-.593-.219-1.132-.694-.411-.364-.679-.694-.76-1.132-.082-.432 0-.679.062-.861.062-.182.142-.308.203-.411.06-.102.102-.182.142-.288.04-.102.02-.182-.02-.268s-.393-1.077-.534-1.464c-.141-.387-.282-.332-.393-.332s-.281-.022-.432-.022z" /></svg>
-    </a>
-
     <script>
         function appData() {
-            const blankRequest = { id: '', date: '', opd: '', type: '', status: '', name: '', email: '', phone: '', nik: '', address: '', supportingDoc: null, requestText: '', reasonText: '', completionDays: null };
+            const blankRequest = { id: '', date: '', opd: '', type: '', status: '', name: '', email: '', phone: '', nik: '', address: '', supportingDoc: null, requestText: '', reasonText: '', completionDays: null, statusHistory: [] };
             return {
                 // APP STATE
                 currentPage: 'login', userType: null, adminTab: 'proses',
@@ -663,15 +723,18 @@
                     { requestId: 'PPID-2025-003', rating: 4, comment: 'Cukup membantu.' },
                     { requestId: 'PPID-2025-006', rating: 5, comment: 'Luar biasa.' },
                 ],
+                // TRACKING STATE
+                trackingId: '',
+                trackingResult: null,
                 // DASHBOARD STATE
                 isModalOpen: false, searchTerm: '', selectedRequest: { ...blankRequest },
                 requests: [
-                    { id: 'PPID-2025-001', date: '27/07/2025', opd: 'Dinas Komunikasi Dan Informatika Prov. Kalbar', type: 'perorangan', status: 'Selesai', name: 'Budi Santoso', email: 'budi.s@email.com', phone: '081234567890', nik: '617101******0001', address: 'Jl. Ahmad Yani No.1, Pontianak', supportingDoc: null, requestText: 'Data statistik pengguna internet di Kalimantan Barat per triwulan selama tahun 2024.', reasonText: 'Untuk keperluan penelitian akademis.', completionDays: 5 },
-                    { id: 'PPID-2025-002', date: '26/07/2025', opd: 'Badan Perencanaan Pembangunan Daerah Prov. Kalbar', type: 'badan-hukum', status: 'Diproses', name: 'Citra Wulandari', email: 'citra.w@email.com', phone: '081234567891', nik: '617102******0002', address: 'Jl. Gajah Mada No. 20', supportingDoc: 'Akta Pendirian PT.pdf', requestText: 'Salinan dokumen RPJMD Provinsi Kalbar terbaru.', reasonText: 'Sebagai bahan acuan penyusunan rencana strategis.', completionDays: null },
-                    { id: 'PPID-2025-003', date: '25/07/2025', opd: 'Dinas Pendidikan Dan Kebudayaan Prov. Kalbar', type: 'kelompok', status: 'Selesai', name: 'Ahmad Subarjo', email: 'ahmad.s@email.com', phone: '081234567892', nik: '617103******0003', address: 'Jl. Imam Bonjol No. 15', supportingDoc: 'Surat Kuasa Kelompok.pdf', requestText: 'Data jumlah sekolah dan siswa jenjang SMA/SMK.', reasonText: 'Untuk kegiatan advokasi pendidikan.', completionDays: 12 },
-                    { id: 'PPID-2025-004', date: '24/07/2025', opd: 'Dinas Kesehatan Prov. Kalbar', type: 'perorangan', status: 'Ditolak', name: 'Dewi Lestari', email: 'dewi.l@email.com', phone: '081234567893', nik: '617104******0004', address: 'Jl. Dr. Sutomo No. 5', supportingDoc: null, requestText: 'Data rekam medis pasien COVID-19.', reasonText: 'Penelitian pribadi (Informasi dikecualikan).', completionDays: 2 },
-                    { id: 'PPID-2025-005', date: '23/07/2025', opd: 'Badan Kepegawaian Daerah Prov. Kalbar', type: 'instansi', status: 'Baru', name: 'Eko Prasetyo', email: 'eko.p@email.com', phone: '081234567894', nik: '617105******0005', address: 'Jl. Urai Bawadi No. 9', supportingDoc: 'Surat Tugas BKD.pdf', requestText: 'Informasi mengenai jumlah formasi CPNS dan P3K 2024.', reasonText: 'Persiapan untuk mengikuti seleksi CASN.', completionDays: null },
-                    { id: 'PPID-2025-006', date: '22/07/2025', opd: 'Dinas Komunikasi Dan Informatika Prov. Kalbar', type: 'kelompok', status: 'Selesai', name: 'Fitriani', email: 'fitriani@email.com', phone: '081234567895', nik: '617106******0006', address: 'Jl. Sutan Syahrir No. 3', supportingDoc: 'Surat Tugas LSM ABC.pdf', requestText: 'Data jumlah penyandang disabilitas di Kubu Raya.', reasonText: 'Untuk evaluasi program kerja LSM.', completionDays: 8 }
+                    { id: 'PPID-2025-001', date: '27/07/2025', opd: 'Dinas Komunikasi Dan Informatika Prov. Kalbar', type: 'perorangan', status: 'Selesai', name: 'Budi Santoso', email: 'budi.s@email.com', phone: '081234567890', nik: '617101******0001', address: 'Jl. Ahmad Yani No.1, Pontianak', supportingDoc: null, requestText: 'Data statistik pengguna internet di Kalimantan Barat per triwulan selama tahun 2024.', reasonText: 'Untuk keperluan penelitian akademis.', completionDays: 5, statusHistory: [{status: 'Selesai', date: '01/08/2025'}, {status: 'Diproses', date: '28/07/2025'}, {status: 'Baru', date: '27/07/2025'}] },
+                    { id: 'PPID-2025-002', date: '26/07/2025', opd: 'Badan Perencanaan Pembangunan Daerah Prov. Kalbar', type: 'badan-hukum', status: 'Diproses', name: 'Citra Wulandari', email: 'citra.w@email.com', phone: '081234567891', nik: '617102******0002', address: 'Jl. Gajah Mada No. 20', supportingDoc: 'Akta Pendirian PT.pdf', requestText: 'Salinan dokumen RPJMD Provinsi Kalbar terbaru.', reasonText: 'Sebagai bahan acuan penyusunan rencana strategis.', completionDays: null, statusHistory: [{status: 'Diproses', date: '27/07/2025'}, {status: 'Baru', date: '26/07/2025'}] },
+                    { id: 'PPID-2025-003', date: '25/07/2025', opd: 'Dinas Pendidikan Dan Kebudayaan Prov. Kalbar', type: 'kelompok', status: 'Selesai', name: 'Ahmad Subarjo', email: 'ahmad.s@email.com', phone: '081234567892', nik: '617103******0003', address: 'Jl. Imam Bonjol No. 15', supportingDoc: 'Surat Kuasa Kelompok.pdf', requestText: 'Data jumlah sekolah dan siswa jenjang SMA/SMK.', reasonText: 'Untuk kegiatan advokasi pendidikan.', completionDays: 12, statusHistory: [{status: 'Selesai', date: '06/08/2025'}, {status: 'Diproses', date: '26/07/2025'}, {status: 'Baru', date: '25/07/2025'}] },
+                    { id: 'PPID-2025-004', date: '24/07/2025', opd: 'Dinas Kesehatan Prov. Kalbar', type: 'perorangan', status: 'Ditolak', name: 'Dewi Lestari', email: 'dewi.l@email.com', phone: '081234567893', nik: '617104******0004', address: 'Jl. Dr. Sutomo No. 5', supportingDoc: null, requestText: 'Data rekam medis pasien COVID-19.', reasonText: 'Penelitian pribadi (Informasi dikecualikan).', completionDays: 2, statusHistory: [{status: 'Ditolak', date: '26/07/2025'}, {status: 'Baru', date: '24/07/2025'}] },
+                    { id: 'PPID-2025-005', date: '23/07/2025', opd: 'Badan Kepegawaian Daerah Prov. Kalbar', type: 'instansi', status: 'Baru', name: 'Eko Prasetyo', email: 'eko.p@email.com', phone: '081234567894', nik: '617105******0005', address: 'Jl. Urai Bawadi No. 9', supportingDoc: 'Surat Tugas BKD.pdf', requestText: 'Informasi mengenai jumlah formasi CPNS dan P3K 2024.', reasonText: 'Persiapan untuk mengikuti seleksi CASN.', completionDays: null, statusHistory: [{status: 'Baru', date: '23/07/2025'}] },
+                    { id: 'PPID-2025-006', date: '22/07/2025', opd: 'Dinas Komunikasi Dan Informatika Prov. Kalbar', type: 'kelompok', status: 'Selesai', name: 'Fitriani', email: 'fitriani@email.com', phone: '081234567895', nik: '617106******0006', address: 'Jl. Sutan Syahrir No. 3', supportingDoc: 'Surat Tugas LSM ABC.pdf', requestText: 'Data jumlah penyandang disabilitas di Kubu Raya.', reasonText: 'Untuk evaluasi program kerja LSM.', completionDays: 8, statusHistory: [{status: 'Selesai', date: '30/07/2025'}, {status: 'Diproses', date: '23/07/2025'}, {status: 'Baru', date: '22/07/2025'}] }
                 ],
                 // LOGIN & NAVIGATION
                 login(type) { this.userType = type; this.currentPage = type === 'admin' ? 'dashboard' : 'form'; },
@@ -681,7 +744,7 @@
                     this.isSubmitting = true;
                     setTimeout(() => { // Simulate API call
                         const newId = `PPID-2025-${(this.requests.length + 1).toString().padStart(3, '0')}`;
-                        const newEntry = { id: newId, date: new Date().toLocaleDateString('id-ID'), status: 'Baru', ...this.newRequest, name: 'Pengguna Baru', email: 'pengguna@sso.com', phone: '081200000000', completionDays: null };
+                        const newEntry = { id: newId, date: new Date().toLocaleDateString('id-ID'), status: 'Baru', ...this.newRequest, name: 'Pengguna Baru', email: 'pengguna@sso.com', phone: '081200000000', completionDays: null, statusHistory: [{ status: 'Baru', date: new Date().toLocaleDateString('id-ID') }] };
                         this.requests.unshift(newEntry);
                         this.formSuccess = true;
                         this.lastRequestId = newId;
@@ -696,7 +759,6 @@
                         rating: this.userFeedback.rating,
                         comment: this.userFeedback.comment
                     });
-                    console.log('Feedback submitted:', this.userFeedback);
                     this.feedbackSubmitted = true;
                 },
                 resetForm() {
@@ -709,12 +771,24 @@
                     if (inputId === 'ktp-upload') this.files.ktp = file;
                     else this.files.supportingDoc = file;
                 },
+                // TRACKING METHOD
+                trackRequest() {
+                    if (!this.trackingId) {
+                        this.trackingResult = { error: 'Silakan masukkan ID Permintaan.' };
+                        return;
+                    }
+                    const foundRequest = this.requests.find(r => r.id.toLowerCase() === this.trackingId.toLowerCase());
+                    if (foundRequest) {
+                        this.trackingResult = foundRequest;
+                    } else {
+                        this.trackingResult = { error: `Permintaan dengan ID "${this.trackingId}" tidak ditemukan.` };
+                    }
+                },
                 // COMPUTED PROPERTIES (GETTERS)
                 get pageTitle() {
                     const titles = {
                         'proses': 'Proses Permintaan Informasi',
-                        'laporan': 'Laporan & Statistik',
-                        'bisnis': 'Proses Bisnis Aplikasi'
+                        'laporan': 'Laporan & Statistik'
                     };
                     return titles[this.adminTab] || 'Dasbor Admin';
                 },
@@ -780,7 +854,15 @@
                 closeModal() { this.isModalOpen = false; },
                 updateRequestStatus() {
                     const index = this.requests.findIndex(req => req.id === this.selectedRequest.id);
-                    if (index !== -1) this.requests[index].status = this.selectedRequest.status;
+                    if (index !== -1) {
+                         if (this.requests[index].status !== this.selectedRequest.status) {
+                            this.requests[index].status = this.selectedRequest.status;
+                            this.requests[index].statusHistory.unshift({
+                                status: this.selectedRequest.status,
+                                date: new Date().toLocaleDateString('id-ID')
+                            });
+                        }
+                    }
                     this.closeModal();
                 }
             };
